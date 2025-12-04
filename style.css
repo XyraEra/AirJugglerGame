@@ -115,7 +115,7 @@ h1 {
 }
 
 .overlay {
-  /* Enforce max-width for consistent horizontal size */
+  /* FIX: Enforce max-width for consistent horizontal size */
   max-width: 350px; 
   
   position: absolute;
@@ -158,7 +158,7 @@ h1 {
   line-height: 1.2;
 }
 
-/* Reduce min-height for #overlayMessage to allow the overall box to shrink vertically */
+/* FIX: Reduce min-height for #overlayMessage to allow the box to shrink */
 #overlayMessage {
   min-height: 80px; 
   display: flex;
