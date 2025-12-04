@@ -30,7 +30,7 @@ function endGame() {
   
   // Based on your original code's approach (where overlayMessage.innerHTML is set):
   overlayMessage.innerHTML = `
-        <div style="font-size: 2.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Fredoka One', cursive; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <div style="font-size: 2.8rem; margin-bottom: 2.5rem; line-height: 2.1; font-family: 'Fredoka One', cursive; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
             ${message}
         </div>
         <p style="font-size: 1.1rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600; padding-bottom: 0.5rem;">
