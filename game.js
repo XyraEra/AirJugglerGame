@@ -1,4 +1,4 @@
-// game.js: Final Revised Code
+// game.js: Final Verified Code
 
 // Game configuration
 const config = {
@@ -132,10 +132,6 @@ function updateScore() {
 }
 
 // ** NEW: Timer control functions **
-
-/**
- * Starts the ball spawning interval (every 20 seconds).
- */
 function startBallSpawning() {
     if (ballSpawnIntervalId === null) {
         ballSpawnIntervalId = setInterval(spawnNewBall, SPAWN_INTERVAL_MS);
@@ -143,9 +139,6 @@ function startBallSpawning() {
     }
 }
 
-/**
- * Stops the ball spawning interval.
- */
 function stopBallSpawning() {
     if (ballSpawnIntervalId !== null) {
         clearInterval(ballSpawnIntervalId);
@@ -153,7 +146,6 @@ function stopBallSpawning() {
         console.log("Ball spawning stopped.");
     }
 }
-
 // ** END NEW **
 
 // Check if TensorFlow.js is loaded
@@ -166,6 +158,7 @@ function checkTensorFlowLoaded() {
     setTimeout(checkTensorFlowLoaded, 100);
   }
 }
+
 // Render everything
 function render() {
   // Draw video feed directly onto canvas (provided)
@@ -253,6 +246,8 @@ function gameLoop() {
     if (gameState.countdown <= 0) {
       gameState.isCountingDown = false;
       gameState.startTime = Date.now();
+      // Restart the ball spawning only after the countdown ends
+      startBallSpawning(); 
     }
   } else {
     // Only update game logic after countdown finishes
@@ -279,6 +274,9 @@ async function startGame() {
   gameState.hands = [];
   gameState.countdown = config.countdownTime;
   gameState.isCountingDown = true;
+  // Stop ball spawning before starting the game/countdown
+  stopBallSpawning();
+
 // Initialize hand tracking if not already done
 if (!window.handTrackingInitialized) {
   // Show loading overlay
@@ -311,9 +309,6 @@ if (!window.handTrackingInitialized) {
 }
   initBalls();
 
-  // ** NEW: Start the ball spawning timer **
-  startBallSpawning();
-
   overlay.classList.add("hidden");
   gameLoop();
 }
@@ -323,7 +318,7 @@ function endGame() {
   gameState.gameOver = true;
   cancelAnimationFrame(gameState.animationId);
 
-  // ** NEW: Stop the ball spawning timer **
+  // Stop the ball spawning timer
   stopBallSpawning();
 
   // Create game over message with better formatting
@@ -336,14 +331,15 @@ function endGame() {
         ? "Great Job!"
         : "Game Over!";
 
-  // The original HTML injected multiple <div>s, making the box too tall.
-  // We modify it to use fewer lines and smaller top/bottom padding to shrink the box.
+  // Use the compact HTML structure for consistent box height
   overlayMessage.innerHTML = `
-        <div style="font-size: 2rem; margin-bottom: 0.2rem; line-height: 1.1;">${message}</div>
-        <div style="font-size: 1.1rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600; padding-bottom: 0.5rem;">
-            ${emoji} You survived ${gameState.score} seconds
-        </div>
-    `;
+        <div style="font-size: 2.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Fredoka One', cursive; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            ${message}
+        </div>
+        <p style="font-size: 1.1rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600; padding-bottom: 0.5rem;">
+            ${emoji} You survived ${gameState.score} seconds
+        </p>
+    `;
   
   startButton.textContent = "Play Again";
   overlay.classList.remove("hidden");
@@ -352,8 +348,8 @@ function endGame() {
 // Event listeners
 startButton.addEventListener("click", startGame);
 
-// TODO: Step 2 - Implement Loading Progress Indicator
-// Create a function checkTensorFlowLoaded():
+// Check if TensorFlow.js is loaded
+// This function definition is already provided above
 
 // Start checking once DOM is loaded:
 if (document.readyState === "loading") {
