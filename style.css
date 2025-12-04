@@ -1,4 +1,4 @@
-/* style.css: Final Revised Code */
+/* style.css: Final Verified Code */
 
 * {
   margin: 0;
@@ -147,7 +147,6 @@ h1 {
   display: none;
 }
 
-/* We don't use this h2 for Game Over anymore, but keep it for Ready to Play */
 .overlay h2 {
   font-family: "Fredoka One", cursive;
   font-size: 2.8rem;
