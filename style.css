@@ -1,3 +1,5 @@
+/* style.css: Final Revised Code */
+
 * {
   margin: 0;
   padding: 0;
@@ -113,8 +115,8 @@ h1 {
 }
 
 .overlay {
-  /* FIX 1: Enforce max-width to match the 'Ready to Play?' size */
-  max-width: 350px;
+  /* Enforce max-width for consistent horizontal size */
+  max-width: 350px; 
   
   position: absolute;
   top: 50%;
@@ -131,7 +133,6 @@ h1 {
 }
 
 @keyframes overlayPop {
-  /* Ensure the transform property uses standard spacing */
   0% {
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 0;
@@ -146,6 +147,7 @@ h1 {
   display: none;
 }
 
+/* We don't use this h2 for Game Over anymore, but keep it for Ready to Play */
 .overlay h2 {
   font-family: "Fredoka One", cursive;
   font-size: 2.8rem;
@@ -157,9 +159,9 @@ h1 {
   line-height: 1.2;
 }
 
-/* FIX 2: Reduce min-height for #overlayMessage to allow the overall box to shrink vertically */
+/* Reduce min-height for #overlayMessage to allow the overall box to shrink vertically */
 #overlayMessage {
-  min-height: 80px; /* Reduced from 120px to allow the box to shrink */
+  min-height: 80px; 
   display: flex;
   flex-direction: column;
   justify-content: center;
