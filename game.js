@@ -1,3 +1,5 @@
+// game.js: Final Revised Code
+
 // Game configuration
 const config = {
   ballCount: 1,
@@ -39,23 +41,23 @@ const loadingStatus = document.getElementById("loadingStatus");
 
 // ** NEW: Function to create and add a single new ball **
 function spawnNewBall() {
-    const newBallIndex = gameState.balls.length;
-    gameState.balls.push({
-        x: canvas.width / 2, // Start in the middle
-        y: 100,              // Start slightly below the top
-        vx: 0,
-        vy: 0,
-        radius: config.ballRadius,
-        // Assign a color based on the new ball's index
-        color: `hsl(${newBallIndex * 120}, 70%, 60%)`, 
-    });
-    console.log(`New ball spawned! Total balls: ${gameState.balls.length}`);
+    const newBallIndex = gameState.balls.length;
+    gameState.balls.push({
+        x: canvas.width / 2, // Start in the middle
+        y: 100,              // Start slightly below the top
+        vx: 0,
+        vy: 0,
+        radius: config.ballRadius,
+        // Assign a color based on the new ball's index
+        color: `hsl(${newBallIndex * 120}, 70%, 60%)`, 
+    });
+    console.log(`New ball spawned! Total balls: ${gameState.balls.length}`);
 }
 
 // Initialize balls
 function initBalls() {
   gameState.balls = [];
-  // Use spawnNewBall to initialize the configured number of balls
+  // Use spawnNewBall to initialize the configured number of balls
   for (let i = 0; i < config.ballCount; i++) {
     spawnNewBall();
   }
@@ -132,24 +134,24 @@ function updateScore() {
 // ** NEW: Timer control functions **
 
 /**
- * Starts the ball spawning interval (every 45 seconds).
- */
+ * Starts the ball spawning interval (every 20 seconds).
+ */
 function startBallSpawning() {
-    if (ballSpawnIntervalId === null) {
-        ballSpawnIntervalId = setInterval(spawnNewBall, SPAWN_INTERVAL_MS);
-        console.log(`Ball spawning started every ${SPAWN_INTERVAL_MS / 1000} seconds.`);
-    }
+    if (ballSpawnIntervalId === null) {
+        ballSpawnIntervalId = setInterval(spawnNewBall, SPAWN_INTERVAL_MS);
+        console.log(`Ball spawning started every ${SPAWN_INTERVAL_MS / 1000} seconds.`);
+    }
 }
 
 /**
- * Stops the ball spawning interval.
- */
+ * Stops the ball spawning interval.
+ */
 function stopBallSpawning() {
-    if (ballSpawnIntervalId !== null) {
-        clearInterval(ballSpawnIntervalId);
-        ballSpawnIntervalId = null;
-        console.log("Ball spawning stopped.");
-    }
+    if (ballSpawnIntervalId !== null) {
+        clearInterval(ballSpawnIntervalId);
+        ballSpawnIntervalId = null;
+        console.log("Ball spawning stopped.");
+    }
 }
 
 // ** END NEW **
@@ -334,13 +336,15 @@ function endGame() {
         ? "Great Job!"
         : "Game Over!";
 
+  // The original HTML injected multiple <div>s, making the box too tall.
+  // We modify it to use fewer lines and smaller top/bottom padding to shrink the box.
   overlayMessage.innerHTML = `
-        <div style="font-size: 3rem; margin-bottom: 0.5rem;">${emoji}</div>
-        <div style="font-size: 2rem; margin-bottom: 0.5rem;">${message}</div>
-        <div style="font-size: 1.2rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600;">
-            You survived ${gameState.score} seconds
+        <div style="font-size: 2rem; margin-bottom: 0.2rem; line-height: 1.1;">${message}</div>
+        <div style="font-size: 1.1rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600; padding-bottom: 0.5rem;">
+            ${emoji} You survived ${gameState.score} seconds
         </div>
     `;
+  
   startButton.textContent = "Play Again";
   overlay.classList.remove("hidden");
 }
