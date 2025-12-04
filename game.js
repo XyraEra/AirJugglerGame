@@ -1,5 +1,3 @@
-// game.js: Final Verified Code
-
 // Game configuration
 const config = {
   ballCount: 1,
@@ -41,23 +39,23 @@ const loadingStatus = document.getElementById("loadingStatus");
 
 // ** NEW: Function to create and add a single new ball **
 function spawnNewBall() {
-    const newBallIndex = gameState.balls.length;
-    gameState.balls.push({
-        x: canvas.width / 2, // Start in the middle
-        y: 100,              // Start slightly below the top
-        vx: 0,
-        vy: 0,
-        radius: config.ballRadius,
-        // Assign a color based on the new ball's index
-        color: `hsl(${newBallIndex * 120}, 70%, 60%)`, 
-    });
-    console.log(`New ball spawned! Total balls: ${gameState.balls.length}`);
+    const newBallIndex = gameState.balls.length;
+    gameState.balls.push({
+        x: canvas.width / 2, // Start in the middle
+        y: 100,              // Start slightly below the top
+        vx: 0,
+        vy: 0,
+        radius: config.ballRadius,
+        // Assign a color based on the new ball's index
+        color: `hsl(${newBallIndex * 120}, 70%, 60%)`, 
+    });
+    console.log(`New ball spawned! Total balls: ${gameState.balls.length}`);
 }
 
 // Initialize balls
 function initBalls() {
   gameState.balls = [];
-  // Use spawnNewBall to initialize the configured number of balls
+  // Use spawnNewBall to initialize the configured number of balls
   for (let i = 0; i < config.ballCount; i++) {
     spawnNewBall();
   }
@@ -132,20 +130,28 @@ function updateScore() {
 }
 
 // ** NEW: Timer control functions **
+
+/**
+ * Starts the ball spawning interval (every 45 seconds).
+ */
 function startBallSpawning() {
-    if (ballSpawnIntervalId === null) {
-        ballSpawnIntervalId = setInterval(spawnNewBall, SPAWN_INTERVAL_MS);
-        console.log(`Ball spawning started every ${SPAWN_INTERVAL_MS / 1000} seconds.`);
-    }
+    if (ballSpawnIntervalId === null) {
+        ballSpawnIntervalId = setInterval(spawnNewBall, SPAWN_INTERVAL_MS);
+        console.log(`Ball spawning started every ${SPAWN_INTERVAL_MS / 1000} seconds.`);
+    }
 }
 
+/**
+ * Stops the ball spawning interval.
+ */
 function stopBallSpawning() {
-    if (ballSpawnIntervalId !== null) {
-        clearInterval(ballSpawnIntervalId);
-        ballSpawnIntervalId = null;
-        console.log("Ball spawning stopped.");
-    }
+    if (ballSpawnIntervalId !== null) {
+        clearInterval(ballSpawnIntervalId);
+        ballSpawnIntervalId = null;
+        console.log("Ball spawning stopped.");
+    }
 }
+
 // ** END NEW **
 
 // Check if TensorFlow.js is loaded
@@ -158,7 +164,6 @@ function checkTensorFlowLoaded() {
     setTimeout(checkTensorFlowLoaded, 100);
   }
 }
-
 // Render everything
 function render() {
   // Draw video feed directly onto canvas (provided)
@@ -246,8 +251,6 @@ function gameLoop() {
     if (gameState.countdown <= 0) {
       gameState.isCountingDown = false;
       gameState.startTime = Date.now();
-      // Restart the ball spawning only after the countdown ends
-      startBallSpawning(); 
     }
   } else {
     // Only update game logic after countdown finishes
@@ -274,9 +277,6 @@ async function startGame() {
   gameState.hands = [];
   gameState.countdown = config.countdownTime;
   gameState.isCountingDown = true;
-  // Stop ball spawning before starting the game/countdown
-  stopBallSpawning();
-
 // Initialize hand tracking if not already done
 if (!window.handTrackingInitialized) {
   // Show loading overlay
@@ -309,6 +309,9 @@ if (!window.handTrackingInitialized) {
 }
   initBalls();
 
+  // ** NEW: Start the ball spawning timer **
+  startBallSpawning();
+
   overlay.classList.add("hidden");
   gameLoop();
 }
@@ -318,7 +321,7 @@ function endGame() {
   gameState.gameOver = true;
   cancelAnimationFrame(gameState.animationId);
 
-  // Stop the ball spawning timer
+  // ** NEW: Stop the ball spawning timer **
   stopBallSpawning();
 
   // Create game over message with better formatting
@@ -331,16 +334,13 @@ function endGame() {
         ? "Great Job!"
         : "Game Over!";
 
-  // Use the compact HTML structure for consistent box height
   overlayMessage.innerHTML = `
-        <div style="font-size: 2.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Fredoka One', cursive; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            ${message}
-        </div>
-        <p style="font-size: 1.1rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600; padding-bottom: 0.5rem;">
-            ${emoji} You survived ${gameState.score} seconds
-        </p>
-    `;
-  
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">${emoji}</div>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">${message}</div>
+        <div style="font-size: 1.2rem; color: #666; font-family: 'Poppins', sans-serif; font-weight: 600;">
+            You survived ${gameState.score} seconds
+        </div>
+    `;
   startButton.textContent = "Play Again";
   overlay.classList.remove("hidden");
 }
@@ -348,8 +348,8 @@ function endGame() {
 // Event listeners
 startButton.addEventListener("click", startGame);
 
-// Check if TensorFlow.js is loaded
-// This function definition is already provided above
+// TODO: Step 2 - Implement Loading Progress Indicator
+// Create a function checkTensorFlowLoaded():
 
 // Start checking once DOM is loaded:
 if (document.readyState === "loading") {
