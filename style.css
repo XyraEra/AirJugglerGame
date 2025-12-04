@@ -113,10 +113,12 @@ h1 {
 }
 
 .overlay {
+  /* This ensures the overlay is correctly centered within the 640x480 game box */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  
   background: rgba(255, 255, 255, 0.98);
   padding: 3rem 2rem;
   border-radius: 30px;
@@ -127,14 +129,15 @@ h1 {
 }
 
 @keyframes overlayPop {
-  0% {
-   transform: scale(0.8); /* Removed translate(-50%, -50%) */
-   opacity: 0;
-  }
-  100% {
-  transform: scale(1); /* Removed translate(-50%, -50%) */
-   opacity: 1;
-  }
+  /* FIX: Corrected syntax and ensured centering transform is present */
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .overlay.hidden {
