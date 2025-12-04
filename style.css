@@ -113,7 +113,9 @@ h1 {
 }
 
 .overlay {
-  /* This ensures the overlay is correctly centered within the 640x480 game box */
+  /* FIX 1: Enforce max-width to match the 'Ready to Play?' size */
+  max-width: 350px;
+  
   position: absolute;
   top: 50%;
   left: 50%;
@@ -129,7 +131,7 @@ h1 {
 }
 
 @keyframes overlayPop {
-  /* FIX: Corrected syntax and ensured centering transform is present */
+  /* Ensure the transform property uses standard spacing */
   0% {
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 0;
@@ -155,8 +157,9 @@ h1 {
   line-height: 1.2;
 }
 
+/* FIX 2: Reduce min-height for #overlayMessage to allow the overall box to shrink vertically */
 #overlayMessage {
-  min-height: 120px;
+  min-height: 80px; /* Reduced from 120px to allow the box to shrink */
   display: flex;
   flex-direction: column;
   justify-content: center;
